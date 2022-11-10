@@ -93,3 +93,11 @@ function handleCellClick(clickedCellEvent) {
 
 document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', handleCellClick));
 document.querySelector('.game--restart').addEventListener('click', handleRestartGame);
+document.querySelector('.game--start').addEventListener('click', handleStartGame);
+
+async function handleStartGame(){
+
+    const response = await fetch('players')
+    const data = await response.json()
+    console.log(data)
+}
