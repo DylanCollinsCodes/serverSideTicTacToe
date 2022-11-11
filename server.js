@@ -13,8 +13,8 @@ app.get('/', (req, res) => {
 app.get('/players', (req,res) =>{
     randomStart = Math.ceil(Math.random() * 2)
     if(randomStart === 1){
-        res.send({ playerOne: 'X', playerTwo: 'O'})
-    }else{res.send({playerOne: 'O', playerTwo: 'X'})}
+        res.send({ playerOne: 'X'})
+    }else{res.send({playerOne: 'O'})}
 })
 
 app.listen(process.env.PORT || PORT, ()=>{

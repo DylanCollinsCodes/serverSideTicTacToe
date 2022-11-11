@@ -1,9 +1,25 @@
 
 const statusDisplay = document.querySelector('.game--status');
 
-let gameActive = true;
+let gameActive = false;
 
-let currentPlayer = "X";
+document.querySelector('.game--start').addEventListener('click', handleStartGame);
+
+async function handleStartGame(){
+    for(i = 0; i < gameState.length; i++){
+        if(gameState[i] !== ""){
+            handleRestartGame()
+            return;
+        }
+    }
+    const response = await fetch('players')
+    const data = await response.json()
+    let currentPlayer = `${data.playerOne}`
+    handlePlayerChange()
+    gameActive = true
+    return currentPlayer    
+}
+let currentPlayer = () => {handleStartGame();}
 
 let gameState = ["", "", "", "", "", "", "", "", ""];
 
@@ -11,7 +27,7 @@ const winningMessage = () => `${currentPlayer} has won!`;
 const drawMessage = () => `Game ended in a draw!`;
 const currentPlayerTurn = () => `It's ${currentPlayer}'s turn`;
 
-statusDisplay.innerHTML = currentPlayerTurn();
+
 function handleCellPlayed(clickedCell, clickedCellIndex) {
 
         gameState[clickedCellIndex] = currentPlayer;
@@ -82,7 +98,7 @@ function handleCellClick(clickedCellEvent) {
     }
     function handleRestartGame() {
         gameActive = true;
-        currentPlayer = "X";
+        handleStartGame()
         gameState = ["", "", "", "", "", "", "", "", ""];
         statusDisplay.innerHTML = currentPlayerTurn();
         document.querySelectorAll('.cell')
@@ -92,12 +108,5 @@ function handleCellClick(clickedCellEvent) {
     }
 
 document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', handleCellClick));
-document.querySelector('.game--restart').addEventListener('click', handleRestartGame);
+// document.querySelector('.game--restart').addEventListener('click', handleRestartGame);
 document.querySelector('.game--start').addEventListener('click', handleStartGame);
-
-async function handleStartGame(){
-
-    const response = await fetch('players')
-    const data = await response.json()
-    console.log(data)
-}
