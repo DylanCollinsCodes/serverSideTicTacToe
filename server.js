@@ -1,14 +1,14 @@
 const express = require('express')
 const app = express()
-const PORT = 8000
+const homeRoutes = require('./routes/home')
+
+require('dotenv').config({path: './config/.env'})
+
 
 app.set('view engine', 'ejs')
 
 app.use(express.static('public'))
-
-app.get('/', (req, res) => {
-    res.render('index.ejs')
-})
+app.use('/', homeRoutes)
 
 app.get('/players', (req,res) =>{
     randomStart = Math.ceil(Math.random() * 2)
@@ -17,6 +17,6 @@ app.get('/players', (req,res) =>{
     }else{res.send({playerOne: 'O'})}
 })
 
-app.listen(process.env.PORT || PORT, ()=>{
-    console.log(`The server is now running on port ${PORT}! Betta Go Catch It!`)
+app.listen(process.env.PORT, ()=>{
+    console.log(`The server is now running! Betta Go Catch It!`)
 })
