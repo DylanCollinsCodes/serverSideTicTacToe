@@ -5,23 +5,21 @@ let gameActive = false;
 
 document.querySelector('.game--start').addEventListener('click', handleStartGame);
 
+let gameState = ["", "", "", "", "", "", "", "", ""];
+let currentPlayer = ""
+
 async function handleStartGame(){
     for(i = 0; i < gameState.length; i++){
         if(gameState[i] !== ""){
             handleRestartGame()
-            return;
         }
     }
     const response = await fetch('players')
     const data = await response.json()
-    let currentPlayer = `${data.playerOne}`
-    handlePlayerChange()
+    currentPlayer = `${data.playerOne}`
+    statusDisplay.innerHTML = currentPlayerTurn();
     gameActive = true
-    return currentPlayer    
 }
-let currentPlayer = () => {handleStartGame();}
-
-let gameState = ["", "", "", "", "", "", "", "", ""];
 
 const winningMessage = () => `${currentPlayer} has won!`;
 const drawMessage = () => `Game ended in a draw!`;
@@ -98,7 +96,6 @@ function handleCellClick(clickedCellEvent) {
     }
     function handleRestartGame() {
         gameActive = true;
-        handleStartGame()
         gameState = ["", "", "", "", "", "", "", "", ""];
         statusDisplay.innerHTML = currentPlayerTurn();
         document.querySelectorAll('.cell')
@@ -108,5 +105,4 @@ function handleCellClick(clickedCellEvent) {
     }
 
 document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', handleCellClick));
-// document.querySelector('.game--restart').addEventListener('click', handleRestartGame);
 document.querySelector('.game--start').addEventListener('click', handleStartGame);
